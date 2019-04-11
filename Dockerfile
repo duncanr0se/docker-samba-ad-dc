@@ -48,7 +48,9 @@ ADD custom.sh /usr/local/bin/custom.sh
 RUN chmod +x /usr/local/bin/custom.sh
 
 # Add supervisord and init
-ADD supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+#ADD supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+ADD supervisord_plus_sssd.conf /supervisord_plus_sssd.conf
+ADD supervisord_drop_sssd.conf /supervisord_drop_sssd.conf
 ADD init.sh /init.sh
 RUN chmod 755 /init.sh
 EXPOSE 22 53 389 88 135 139 138 445 464 3268 3269

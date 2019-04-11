@@ -42,10 +42,15 @@ appSetup () {
     expect kdb5_util_create.expect
     
     # Export kerberos keytab for use with sssd
-    if [ "${OMIT_EXPORT_KEY_TAB}" != "true" ]
+    if [ "${OMIT_EXPORT_KEY_TAB}" == "false" ]
     then
         samba-tool domain exportkeytab /etc/krb5.keytab --principal ${HOSTNAME}\$
         cp /etc/krb5.keytab $KRBKEYTAP_CONF_BACKUP
+	echo Copy supervisord config with sssd included
+	cp /supervisord_plus_sssd.conf /etc/supervisor/conf.d/supervisord.conf
+    else
+	echo Copy supervisord config with sssd excluded
+	cp /supervisord_drop_sssd.conf /etc/supervisor/conf.d/supervisord.conf
     fi
     sed -i "s/SAMBA_REALM/${SAMBA_REALM}/" /etc/sssd/sssd.conf
     
